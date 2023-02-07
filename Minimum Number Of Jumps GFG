@@ -1,0 +1,76 @@
+// Problem Minimum number of jumps at GeeksforGeeks practice
+// MediumAccuracy: 11.91% Submissions: 539K+ Points: 4
+
+
+
+//{ Driver Code Starts
+import java.lang.*;
+import java.io.*;
+import java.util.*;
+class GFG
+ {
+	public static void main (String[] args) throws IOException
+	 {
+	 
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+        int t = Integer.parseInt(br.readLine()); 
+
+        while(t-- > 0){
+            int size = Integer.parseInt(br.readLine());
+            String[] arrStr = ((String)br.readLine()).split("\\s+");
+            int[] arr= new int[size];
+            for(int i = 0;i<size;i++){
+                arr[i] = Integer.parseInt(arrStr[i]);
+            }
+            System.out.println(new Solution().minJumps(arr));
+        }
+	 }
+	 
+}
+
+// } Driver Code Ends
+
+
+class Solution{
+    static int minJumps(int[] arr){
+        // your code here
+        int index = 0, jump = 0, jcount= 0;
+        // index = index of array at a point
+        // jump = the value at which we jumped
+        // jcount = number of jumps
+        // while loop gurantees us loop exit whenever index goes higher than the length of array
+        // in this approach, we measure the distance of each possible jump from the end (for loop).
+        // for example if we can jump 5 steps then for n = 10 distance is 5 
+        // the value at which distance of jump is least is our maxjump
+        // some of the lines may be optional you may want to remove or remain as it is
+        while(index < arr.length-1){
+            jump = arr[index];
+            
+            if(jump == 0){
+                return -1;
+            }
+            // this if is optional only used in case the first or all elements are 0
+            
+            else if(jump >= arr.length-index-1){
+            return ++jcount;
+            }
+            // the above else if loop executes whenever jump value is higher than the distance 
+            
+            int maxjump = Integer.MAX_VALUE, cur =0, i = 0, jumpindex = index+1;
+            // maxjump is set to max value to have the max distance as initial
+            // cur means current distance and jumpindex is where to jump at
+            for(i = index + 1; i <= index +jump; i++){
+                if(arr[i] == 0)
+                    continue;
+                cur = arr.length - (arr[i] +1 +i);
+                if(cur < maxjump){
+                maxjump = cur;
+                jumpindex = i;
+                }
+            }
+            index = jumpindex;
+            jcount++;
+        }
+        return (index > arr.length-1) ? jcount+1 : jcount;
+    }
+}
